@@ -1,6 +1,6 @@
 import Parser from 'rss-parser';
 import { CreateArticleDto } from '../dto/create-article.dto.js';
-import { parseMediumRssItemToDto } from './medium.parser.js';
+import { rssParsers } from './index.js';
 
 const parser = new Parser();
 
@@ -13,7 +13,7 @@ export async function parseMediumRssFeed(
     const url = `${baseUrl}${tag}`;
     try {
       const feed = await parser.parseURL(url);
-      const dtos = feed.items.map((item) => parseMediumRssItemToDto(item));
+      const dtos = feed.items.map((item) => rssParsers.medium(item));
       allDtos.push(...dtos);
     } catch (err) {
       if (err instanceof Error) {

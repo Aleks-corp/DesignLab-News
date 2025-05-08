@@ -17,4 +17,13 @@ export class ArticlesRepository {
   findAll(): Promise<Article[]> {
     return this.model.find().exec();
   }
+
+  async findBySourceUrl(sourceUrl: string): Promise<Article | null> {
+    return this.model.findOne({ sourceUrl }).exec();
+  }
+
+  async deleteAll() {
+    const result = await this.model.deleteMany({});
+    return { deletedCount: result.deletedCount };
+  }
 }

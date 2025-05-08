@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateArticleDto } from '../dto/create-article.dto.js';
 import { ArticlesRepository } from '../repositories/articles.repo.js';
-import { parseMediumRssFeed } from '../parsers/medium.feed-parser.js';
 import { isLikelyReadableLanguage } from '../utils/article-language-filter.js';
+import { rssParsers } from '../parsers/index.js';
 
 @Injectable()
 export class ArticlesService {
@@ -21,8 +21,13 @@ export class ArticlesService {
     mediumFeedUrl: string,
     tags: string[],
   ): Promise<void> {
-    const dtos = await parseMediumRssFeed(mediumFeedUrl, tags);
+    const dtos = await rssParsers.mediumFeed(mediumFeedUrl, tags);
     for (const dto of dtos) {
+      const existsInDb = await this.articleRepo.findBySourceUrl(dto.sourceUrl);
+      if (existsInDb) {
+        console.warn(`⚠️ В базі вже є стаття з URL: ${dto.sourceUrl}`);
+        continue;
+      }
       const combinedText = `${dto.title} ${dto.content}`;
       if (!isLikelyReadableLanguage(combinedText)) {
         console.warn(
@@ -30,12 +35,40 @@ export class ArticlesService {
         );
         continue;
       }
-      const regex = /#\w*lawyer\b/i;
-      if (regex.test(dto.title) || regex.test(dto.content)) {
+      const fullContent = await rssParsers.mediumContent(dto.sourceUrl);
+      if (fullContent) {
+        dto.content = fullContent;
+      }
+      const regex1 = /#\w*lawyer\b/i;
+      if (regex1.test(dto.title) || regex1.test(dto.content)) {
         console.warn(`🚫 Стаття містить spam hashtag: "${dto.title}"`);
         continue;
       }
+
+      const normalizedTitle = dto.title.trim().toLowerCase();
+      const normalizedContent = dto.content.trim().toLowerCase();
+
+      const regex =
+        /(member-only story|whatsapp|@gmail\.com|travitudesafaritours|safari|vacations to africa)/;
+
+      if (regex.test(normalizedTitle) || regex.test(normalizedContent)) {
+        console.warn(`🚫 Спам/платна стаття відкинута: "${dto.title}"`);
+        continue;
+      }
+      let cleanedContent = dto.content;
+
+      const splitMarker = 'Listen\n\nShare\n\n';
+      const parts = cleanedContent.split(splitMarker);
+
+      cleanedContent =
+        parts.length > 1 ? parts[1].trim() : cleanedContent.trim();
+
+      dto.content = cleanedContent;
+
       await this.create(dto);
     }
+  }
+  async deleteAll() {
+    return this.articleRepo.deleteAll();
   }
 }
