@@ -1,6 +1,6 @@
 import Parser from 'rss-parser';
-import { CreateArticleDto } from '../dto/create-article.dto.js';
-import { rssParsers } from './index.js';
+import { CreateArticleDto } from '../../dto/create-article.dto.js';
+import { rssParsers } from '../index.js';
 
 const parser = new Parser();
 

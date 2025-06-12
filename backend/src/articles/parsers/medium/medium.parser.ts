@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio';
-import { CreateArticleDto } from '../dto/create-article.dto.js';
-import cleanSourceUrl from '../utils/clean-url.js';
+import { CreateArticleDto } from '../../dto/create-article.dto.js';
+import cleanSourceUrl from '../../utils/clean-url.js';
 
 export interface MediumItem {
   title?: string;
