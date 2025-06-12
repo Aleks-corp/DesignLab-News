@@ -12,6 +12,6 @@ import { Article, ArticleSchema } from './models/article.schema.js';
   ],
   controllers: [ArticlesController],
   providers: [ArticlesService, ArticlesRepository],
-  exports: [ArticlesService],
+  exports: [ArticlesService, MongooseModule],
 })
 export class ArticlesModule {}

@@ -12,6 +12,12 @@ export class ArticlesController {
     return this.articlesService.create(dto);
   }
 
+  @Get('arr')
+  async findAllArr(@Res() res: Response) {
+    const articles = await this.articlesService.findAll();
+    res.json(articles);
+  }
+
   @Get('')
   async findAll(@Res() res: Response) {
     const articles = await this.articlesService.findAll();
@@ -31,15 +37,14 @@ export class ArticlesController {
     .published { font-size: 0.9em; color: #999; }
   </style>
 </head>
-      <body>
+      <body style="max-width:1024px">
         <h1>Список статей</h1>
         ${articles
           .map(
-            (article) => `
+            (article, index) => `
           <div style="border-bottom:1px solid #ccc; margin-bottom:20px;">
-            <h2><a href="${article.sourceUrl}" target="_blank">${article.title}</a></h2>
-            ${article.imageUrl ? `<img src="${article.imageUrl}" style="max-width:100%;">` : ''}
-            <p>${article.content}</p>
+            <h2 style="font-size:36px; font-weight:600; text-align:center;">${index + 1}) ${article.title}</h2>
+            <div style="font-size:16px">${article.content}</div>
             <p>Категорії: ${article.categories ? article.categories.join(', ') : ''}</p>
             <p>Автор: ${article.author}</p>
             <p>Опубліковано: ${new Date(article.publishedAt ? article.publishedAt : '').toLocaleString()}</p>
@@ -60,6 +65,14 @@ export class ArticlesController {
     const mediumFeedUrl = 'https://medium.com/feed/tag/';
     const tags = ['ux', 'ux-design', 'uxui-design'];
     await this.articlesService.parseAndStoreMediumArticles(mediumFeedUrl, tags);
+    return this.articlesService.findAll();
+  }
+
+  @Get('parse-prototypr')
+  async triggerPrototyprParse() {
+    const prototyprFeedUrl = 'https://blog.prototypr.io/feed/';
+
+    await this.articlesService.parseAndStorePrototyprArticles(prototyprFeedUrl);
     return this.articlesService.findAll();
   }
 

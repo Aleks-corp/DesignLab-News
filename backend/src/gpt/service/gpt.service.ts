@@ -27,13 +27,19 @@ export class GptService {
     content: string,
   ): Promise<{ title: string; content: string }> {
     const prompt = `Translate the following UX/UI design article to Ukrainian.
-Preserve the formatting, structure, and paragraph breaks.
-Adapt the tone to sound natural and fluent for Ukrainian readers.
+
+⚠️ VERY IMPORTANT INSTRUCTIONS:
+- Keep all HTML tags (<p>, <a>, <img>, etc.) unchanged.
+- Only translate human-readable text **inside** the tags.
+- DO NOT translate attributes like href, src, alt, class, etc.
+- DO NOT change HTML structure.
+- DO NOT wrap with additional tags.
+- Preserve original paragraph and element structure.
+- Keep line breaks and indentation as in original.
 
 ---
 
-Title:
-${title}
+Title: ${title}
 
 Content:
 ${content}
@@ -42,14 +48,10 @@ ${content}
     const res = await this.openai.chat.completions.create({
       model: 'gpt-4o',
       messages: [{ role: 'user', content: prompt }],
-      temperature: 0.4,
+      temperature: 0.3,
     });
 
     const raw = res.choices[0].message?.content ?? '';
-
-    // Очікуємо формат:
-    // Title: Перекладений заголовок
-    // Content: Перекладене тіло
 
     const titleMatch = raw.match(/Title:\s*(.+)/i);
     const contentMatch = raw.match(/Content:\s*([\s\S]+)/i);
@@ -78,6 +80,10 @@ ${content}
           article.content,
         );
 
+        article.original = {
+          title: article.title,
+          content: article.content,
+        };
         article.title = title;
         article.content = content;
         article.status = 'underreview';

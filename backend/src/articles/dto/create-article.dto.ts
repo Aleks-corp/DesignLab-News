@@ -5,7 +5,17 @@ import {
   IsOptional,
   IsDateString,
   IsIn,
+  ValidateNested,
 } from 'class-validator';
+import { Type } from 'class-transformer';
+
+class OriginalContentDto {
+  @IsString()
+  title: string;
+
+  @IsString()
+  content: string;
+}
 
 export class CreateArticleDto {
   @IsString()
@@ -42,4 +52,9 @@ export class CreateArticleDto {
   @IsOptional()
   @IsIn(['raw', 'underreview', 'approved', 'declined'])
   status?: 'raw' | 'underreview' | 'approved' | 'declined';
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => OriginalContentDto)
+  original?: OriginalContentDto;
 }

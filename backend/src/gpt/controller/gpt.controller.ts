@@ -13,7 +13,15 @@ export class GptController {
 
   @Post('translate-raw')
   async translateAllRaw() {
-    const count = await this.gptService.translateRawArticles();
-    return { message: `Перекладено ${count} статей зі статусом 'raw'` };
+    const answer = await this.gptService.translateRawArticles();
+    return { message: `Перекладено ${answer} статей зі статусом 'raw'` };
+  }
+
+  @Post('translate')
+  async translate(@Body('content') title: string, content: string) {
+    const resp = await this.gptService.translateArticle(title, content);
+    return {
+      message: `Перекладено ${resp.title} статею із вмістом '${resp.title}'`,
+    };
   }
 }

@@ -32,6 +32,18 @@ export class Article {
     default: 'raw',
   })
   status: 'raw' | 'underreview' | 'approved' | 'declined';
+
+  @Prop({
+    type: {
+      title: String,
+      content: String,
+    },
+    required: false,
+  })
+  original?: {
+    title: string;
+    content: string;
+  };
 }
 
 export type ArticleDocument = Article & Document;
