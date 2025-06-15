@@ -1,24 +1,61 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { ArticlesService } from '../services/articles.service.js';
 import { CreateArticleDto } from '../dto/create-article.dto.js';
 import { Response } from 'express';
+import { UseGuards } from '@nestjs/common';
+import { SimpleAuthGuard } from '../../auth/simple-auth.guard.js';
 
 @Controller('articles')
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   @Post()
+  @UseGuards(SimpleAuthGuard)
   create(@Body() dto: CreateArticleDto) {
     return this.articlesService.create(dto);
   }
 
   @Get('arr')
+  @UseGuards(SimpleAuthGuard)
   async findAllArr(@Res() res: Response) {
     const articles = await this.articlesService.findAll();
-    res.json(articles);
+    res.json({
+      totalHits: articles.length,
+      articles,
+    });
+  }
+
+  @Get('published')
+  async findAllPublished(@Res() res: Response) {
+    const articles = await this.articlesService.findPublished();
+
+    res.json({
+      totalHits: articles.length,
+      articles,
+    });
+  }
+
+  @Get('pending')
+  @UseGuards(SimpleAuthGuard)
+  async findAllPending(@Res() res: Response) {
+    const articles = await this.articlesService.findPending();
+
+    res.json({
+      totalHits: articles.length,
+      articles,
+    });
   }
 
   @Get('')
+  // @UseGuards(SimpleAuthGuard)
   async findAll(@Res() res: Response) {
     const articles = await this.articlesService.findAll();
 
@@ -61,6 +98,7 @@ export class ArticlesController {
   }
 
   @Get('parse-medium')
+  @UseGuards(SimpleAuthGuard)
   async triggerMediumParse() {
     const mediumFeedUrl = 'https://medium.com/feed/tag/';
     const tags = ['ux', 'ux-design', 'uxui-design'];
@@ -69,6 +107,7 @@ export class ArticlesController {
   }
 
   @Get('parse-prototypr')
+  @UseGuards(SimpleAuthGuard)
   async triggerPrototyprParse() {
     const prototyprFeedUrl = 'https://blog.prototypr.io/feed/';
 
@@ -76,8 +115,36 @@ export class ArticlesController {
     return this.articlesService.findAll();
   }
 
-  @Get('delete')
+  @Get('parse-smashing')
+  @UseGuards(SimpleAuthGuard)
+  async triggerSmashingParse() {
+    const smashingFeedUrl = 'https://www.smashingmagazine.com/feed/';
+
+    await this.articlesService.parseAndStoreSmashingArticles(smashingFeedUrl);
+    return this.articlesService.findAll();
+  }
+
+  @Get('parse-articles')
+  @UseGuards(SimpleAuthGuard)
+  async triggerParse() {
+    const prototyprFeedUrl = 'https://blog.prototypr.io/feed/';
+    const smashingFeedUrl = 'https://www.smashingmagazine.com/feed/';
+
+    return await this.articlesService.parseAndStoreArticles(
+      prototyprFeedUrl,
+      smashingFeedUrl,
+    );
+  }
+
+  @Delete('delete')
+  @UseGuards(SimpleAuthGuard)
   deleteAll() {
     return this.articlesService.deleteAll();
+  }
+
+  @Delete('delete/:id')
+  @UseGuards(SimpleAuthGuard)
+  deleteById(@Param('id') id: string) {
+    return this.articlesService.deleteById(id);
   }
 }

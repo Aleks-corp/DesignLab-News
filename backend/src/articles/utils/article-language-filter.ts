@@ -10,6 +10,5 @@ const detector = langdetect as unknown as LangDetect;
 export function isLikelyReadableLanguage(text: string): boolean {
   const lang = detector.detectOne(text);
 
-  console.log('lang:', lang);
   return lang === 'uk' || lang === 'en';
 }

@@ -49,6 +49,7 @@ ${content}
       model: 'gpt-4o',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.3,
+      store: true,
     });
 
     const raw = res.choices[0].message?.content ?? '';

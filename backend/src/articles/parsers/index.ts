@@ -4,7 +4,8 @@ import { fetchFullArticleContent } from './medium/medium.full-article-content-pa
 import { parsePrototyprRssFeed } from './prototypr/prototypr.feed-parser.js';
 import { parsePrototyprRssItemToDto } from './prototypr/prototypr.parser.js';
 // import { parseNngroupItemToDto } from './nngroup.parser';
-// import { parseSmashingItemToDto } from './smashing.parser';
+import { parseSmashingRssFeed } from './smashing/smashing.feed-parser.js';
+import { parseSmashingRssItemToDto } from './smashing/smashing.parser.js';
 
 export const rssParsers = {
   medium: parseMediumRssItemToDto,
@@ -13,7 +14,8 @@ export const rssParsers = {
   prototyprFeed: parsePrototyprRssFeed,
   prototypr: parsePrototyprRssItemToDto,
   //   nngroup: parseNngroupItemToDto,
-  //   smashing: parseSmashingItemToDto,
+  smashingFeed: parseSmashingRssFeed,
+  smashing: parseSmashingRssItemToDto,
 };
 
 export type ParserKey = keyof typeof rssParsers;

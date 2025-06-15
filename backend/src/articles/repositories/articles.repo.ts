@@ -22,8 +22,27 @@ export class ArticlesRepository {
     return this.model.findOne({ sourceUrl }).exec();
   }
 
+  findApproved(): Promise<Article[]> {
+    return this.model
+      .find({ status: 'approved' })
+      .sort({ createdAt: -1 })
+      .exec();
+  }
+
+  findPending(): Promise<Article[]> {
+    return this.model
+      .find({ status: 'underreview' })
+      .sort({ createdAt: -1 })
+      .exec();
+  }
+
   async deleteAll() {
     const result = await this.model.deleteMany({});
     return { deletedCount: result.deletedCount };
+  }
+
+  async deleteById(id: string) {
+    await this.model.deleteOne({ _id: id });
+    return { message: 'Delete successful' };
   }
 }
