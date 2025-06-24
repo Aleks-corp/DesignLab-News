@@ -10,6 +10,9 @@ export class Article {
   content: string;
 
   @Prop({ required: true })
+  excerpt: string;
+
+  @Prop({ required: true })
   sourceUrl: string;
 
   @Prop()

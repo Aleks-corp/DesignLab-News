@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import { CreateArticleDto } from '../../dto/create-article.dto.js';
 import cleanSourceUrl from '../../utils/clean-url.js';
+import { extractENExcerptFromContent } from '../../utils/article-excerpt-translate.js';
 
 export interface PrototyprItem {
   title?: string;
@@ -56,6 +57,7 @@ export function parsePrototyprRssItemToDto(
   });
 
   const cleanedContent = $('body').html() || '';
+  const excerpt = extractENExcerptFromContent(cleanedContent);
 
   const categories = Array.isArray(item.categories)
     ? item.categories.map((c) => String(c))
@@ -67,6 +69,7 @@ export function parsePrototyprRssItemToDto(
   const dto: CreateArticleDto = {
     title: item.title || 'Без назви',
     content: cleanedContent,
+    excerpt,
     sourceUrl: cleanedUrl,
     imageUrl,
     categories,

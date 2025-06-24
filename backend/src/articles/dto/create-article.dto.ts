@@ -24,6 +24,9 @@ export class CreateArticleDto {
   @IsString()
   content: string;
 
+  @IsString()
+  excerpt: string;
+
   @IsOptional()
   @IsUrl()
   sourceUrl: string;

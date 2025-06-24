@@ -18,6 +18,16 @@ export class ArticlesRepository {
     return this.model.find().exec();
   }
 
+  findById(id: string) {
+    return this.model.findById(id).exec();
+  }
+
+  update(id: string, updateData: Partial<Article>) {
+    return this.model.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
+  }
+
   async findBySourceUrl(sourceUrl: string): Promise<Article | null> {
     return this.model.findOne({ sourceUrl }).exec();
   }
@@ -45,4 +55,8 @@ export class ArticlesRepository {
     await this.model.deleteOne({ _id: id });
     return { message: 'Delete successful' };
   }
+
+  // async insertMany(articles: Article[]): Promise<Article[]> {
+  //   return this.model.insertMany(articles);
+  // }
 }

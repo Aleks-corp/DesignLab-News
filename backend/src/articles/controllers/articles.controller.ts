@@ -12,6 +12,8 @@ import { CreateArticleDto } from '../dto/create-article.dto.js';
 import { Response } from 'express';
 import { UseGuards } from '@nestjs/common';
 import { SimpleAuthGuard } from '../../auth/simple-auth.guard.js';
+// import { promises as fs } from 'fs';
+// import { join } from 'path';
 
 @Controller('articles')
 export class ArticlesController {
@@ -23,8 +25,7 @@ export class ArticlesController {
     return this.articlesService.create(dto);
   }
 
-  @Get('arr')
-  @UseGuards(SimpleAuthGuard)
+  @Get('')
   async findAllArr(@Res() res: Response) {
     const articles = await this.articlesService.findAll();
     res.json({
@@ -54,7 +55,7 @@ export class ArticlesController {
     });
   }
 
-  @Get('')
+  @Get('html')
   // @UseGuards(SimpleAuthGuard)
   async findAll(@Res() res: Response) {
     const articles = await this.articlesService.findAll();
@@ -147,4 +148,26 @@ export class ArticlesController {
   deleteById(@Param('id') id: string) {
     return this.articlesService.deleteById(id);
   }
+
+  // @Post('insert')
+  // async loadFromJson() {
+  //   const filePath = join(
+  //     process.cwd(),
+  //     'src',
+  //     'articles',
+  //     'utils',
+  //     'data.json',
+  //   );
+
+  //   try {
+  //     const data = await fs.readFile(filePath, 'utf-8');
+  //     const posts = JSON.parse(data);
+
+  //     return this.articlesService.insertMany(posts);
+  //   } catch (err) {
+  //     console.error('Error reading posts.json', err);
+  //   }
+
+  //   // масове додавання, перевірка структури, якщо треба
+  // }
 }

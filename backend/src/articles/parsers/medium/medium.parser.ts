@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import { CreateArticleDto } from '../../dto/create-article.dto.js';
 import cleanSourceUrl from '../../utils/clean-url.js';
+import { extractENExcerptFromContent } from '../../utils/article-excerpt-translate.js';
 
 export interface MediumItem {
   title?: string;
@@ -32,9 +33,12 @@ export function parseMediumRssItemToDto(item: MediumItem): CreateArticleDto {
   const rawUrl = item.link || item.guid || '';
   const cleanedUrl = cleanSourceUrl(rawUrl);
 
+  const excerpt = extractENExcerptFromContent(content);
+
   const dto: CreateArticleDto = {
     title: item.title || 'Без назви',
     content: content || '...',
+    excerpt,
     sourceUrl: cleanedUrl,
     imageUrl,
     categories,

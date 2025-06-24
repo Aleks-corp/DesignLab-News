@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateArticleDto } from '../dto/create-article.dto.js';
 import { ArticlesRepository } from '../repositories/articles.repo.js';
 import { isLikelyReadableLanguage } from '../utils/article-language-filter.js';
@@ -6,6 +6,7 @@ import { rssParsers } from '../parsers/index.js';
 import { articlesAddFilter } from '../utils/articles.clean.js';
 import { articlesDayCount } from '../utils/articlesDayCount.js';
 import { Article } from '../models/article.schema.js';
+import { extractExcerptFromContent } from '../utils/article-excerpt-translate.js';
 
 @Injectable()
 export class ArticlesService {
@@ -129,4 +130,27 @@ export class ArticlesService {
       await this.create(dto);
     }
   }
+
+  async approveArticle(id: string, title: string, content: string) {
+    const article = await this.articleRepo.findById(id);
+    if (!article) {
+      throw new NotFoundException(`Статтю з ID ${id} не знайдено`);
+    }
+
+    const newExcerpt = extractExcerptFromContent(content);
+    const excerptToSave =
+      newExcerpt.trim() !== '' ? newExcerpt : article.excerpt || '';
+
+    return this.articleRepo.update(id, {
+      title,
+      content,
+      excerpt: excerptToSave,
+      status: 'approved',
+    });
+  }
+
+  // async insertMany(articles: Article[]) {
+  //   await this.articleRepo.insertMany(articles);
+  //   return { inserted: articles.length };
+  // }
 }
