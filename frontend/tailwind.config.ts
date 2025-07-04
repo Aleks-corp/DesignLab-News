@@ -1,17 +1,62 @@
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
 
 const config: Config = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
+      typography: {
+        DEFAULT: {
+          css: {
+            color: "var(--foreground)",
+            a: { color: "var(--foreground)" },
+            p: {
+              fontFamily: "var(--font-roboto)",
+              fontSize: "16px",
+              textIndent: "2em",
+              marginBottom: "0",
+              maxWidth: "100%",
+            },
+            img: {
+              display: "block",
+              marginLeft: "auto",
+              marginRight: "auto",
+              borderRadius: "12px",
+              maxWidth: "100%",
+            },
+          },
+        },
+        lg: {
+          css: {
+            color: "var(--foreground)",
+            p: {
+              fontFamily: "var(--font-roboto)",
+              fontSize: "18px",
+              textIndent: "3rem",
+              marginTop: "0.5rem",
+              marginBottom: "0",
+              width: "100%",
+              textAlign: "justify",
+            },
+            a: { color: "var(--foreground)" },
+            img: {
+              display: "block",
+              marginLeft: "auto",
+              marginRight: "auto",
+              borderRadius: "12px",
+              width: "100%",
+            },
+          },
+        },
+      },
       fontFamily: {
         sans: ["var(--font-roboto)", "sans-serif"],
         serif: ["var(--font-dm-serif)", "serif"],
       },
       screens: {
-        sm: "440px",
-        md: "1024px",
-        lg: "1440px",
+        sm: "860px",
+        md: "1156px",
+        lg: "1280px",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -45,6 +90,10 @@ const config: Config = {
           DEFAULT: "var(--accent)",
           foreground: "var(--accent-foreground)",
         },
+        hover: {
+          DEFAULT: "var(--hover)",
+          foreground: "var(--hover-foreground)",
+        },
         destructive: {
           DEFAULT: "var(--destructive)",
           foreground: "var(--destructive-foreground)",
@@ -60,20 +109,14 @@ const config: Config = {
           "5": "var(--chart-5)",
         },
       },
-      backgroundImage: {
-        "card-gradient":
-          "linear-gradient(18deg, var(--background) 50%, var(--accent-gradient))",
-        "icon-gradient":
-          "linear-gradient(-45deg, var(--background) 50%, var(--accent-gradient))",
-        "contact-gradient":
-          "linear-gradient(18deg, var(--background) 20%, var(--accent-gradient))",
-      },
+
       boxShadow: {
         boxShadow: "var(--box-shadow-main)",
         boxShadowHover: "var(--box-shadow-hover)",
       },
     },
   },
+  plugins: [typography],
 };
 
 export default config;

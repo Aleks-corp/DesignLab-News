@@ -11,7 +11,7 @@ export default function Footer() {
       >
         <Image
           aria-hidden
-          src="/file.svg"
+          src="/icons/file.svg"
           alt="File icon"
           width={16}
           height={16}
@@ -26,7 +26,7 @@ export default function Footer() {
       >
         <Image
           aria-hidden
-          src="/window.svg"
+          src="/icons/window.svg"
           alt="Window icon"
           width={16}
           height={16}
@@ -41,7 +41,7 @@ export default function Footer() {
       >
         <Image
           aria-hidden
-          src="/globe.svg"
+          src="/icons/globe.svg"
           alt="Globe icon"
           width={16}
           height={16}

@@ -1,8 +1,15 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@config "../../tailwind.config.ts";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --muted: #3e97ff;
+  --muted-foreground: #5e6278;
+  --hover: #086de3;
+  --hover-foreground: #f8f8f8;
+  --radius: 8px;
   --font-roboto: "Roboto", sans-serif;
   --font-dm-serif: "DM Serif Display", serif;
 }

@@ -3,8 +3,11 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
+  Patch,
   Post,
+  Query,
   Res,
 } from '@nestjs/common';
 import { ArticlesService } from '../services/articles.service.js';
@@ -12,8 +15,7 @@ import { CreateArticleDto } from '../dto/create-article.dto.js';
 import { Response } from 'express';
 import { UseGuards } from '@nestjs/common';
 import { SimpleAuthGuard } from '../../auth/simple-auth.guard.js';
-// import { promises as fs } from 'fs';
-// import { join } from 'path';
+import { Article } from '../models/article.schema.js';
 
 @Controller('articles')
 export class ArticlesController {
@@ -26,6 +28,7 @@ export class ArticlesController {
   }
 
   @Get('')
+  @UseGuards(SimpleAuthGuard)
   async findAllArr(@Res() res: Response) {
     const articles = await this.articlesService.findAll();
     res.json({
@@ -35,11 +38,21 @@ export class ArticlesController {
   }
 
   @Get('published')
-  async findAllPublished(@Res() res: Response) {
-    const articles = await this.articlesService.findPublished();
+  async findAllPublished(
+    @Query('page') page = 1,
+    @Query('limit') limit = 9,
+    @Query('search') search = '',
+    @Res() res: Response,
+  ) {
+    const { articles, totalHits } =
+      await this.articlesService.findPublishedPaginated(
+        Number(page),
+        Number(limit),
+        search,
+      );
 
     res.json({
-      totalHits: articles.length,
+      totalHits,
       articles,
     });
   }
@@ -55,8 +68,33 @@ export class ArticlesController {
     });
   }
 
+  @Patch('confirm')
+  @UseGuards(SimpleAuthGuard)
+  async confirm(@Body() article: Partial<Article> & { _id: string }) {
+    return this.articlesService.confirm(article);
+  }
+
+  @Get(':id')
+  async findById(@Param('id') id: string) {
+    return await this.articlesService.findById(id);
+  }
+
+  @Delete('delete')
+  @UseGuards(SimpleAuthGuard)
+  deleteAll() {
+    return this.articlesService.deleteAll();
+  }
+
+  @Delete(':id')
+  @UseGuards(SimpleAuthGuard)
+  async deleteById(@Param('id') id: string) {
+    const deleted = await this.articlesService.deleteById(id);
+    if (!deleted) throw new NotFoundException('Article not found');
+    return { success: true };
+  }
+
   @Get('html')
-  // @UseGuards(SimpleAuthGuard)
+  @UseGuards(SimpleAuthGuard)
   async findAll(@Res() res: Response) {
     const articles = await this.articlesService.findAll();
 
@@ -136,38 +174,4 @@ export class ArticlesController {
       smashingFeedUrl,
     );
   }
-
-  @Delete('delete')
-  @UseGuards(SimpleAuthGuard)
-  deleteAll() {
-    return this.articlesService.deleteAll();
-  }
-
-  @Delete('delete/:id')
-  @UseGuards(SimpleAuthGuard)
-  deleteById(@Param('id') id: string) {
-    return this.articlesService.deleteById(id);
-  }
-
-  // @Post('insert')
-  // async loadFromJson() {
-  //   const filePath = join(
-  //     process.cwd(),
-  //     'src',
-  //     'articles',
-  //     'utils',
-  //     'data.json',
-  //   );
-
-  //   try {
-  //     const data = await fs.readFile(filePath, 'utf-8');
-  //     const posts = JSON.parse(data);
-
-  //     return this.articlesService.insertMany(posts);
-  //   } catch (err) {
-  //     console.error('Error reading posts.json', err);
-  //   }
-
-  //   // масове додавання, перевірка структури, якщо треба
-  // }
 }

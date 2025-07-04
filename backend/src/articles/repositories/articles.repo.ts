@@ -22,6 +22,10 @@ export class ArticlesRepository {
     return this.model.findById(id).exec();
   }
 
+  updateById(id: string, data: Partial<Article>) {
+    return this.model.findByIdAndUpdate(id, data, { new: true }).exec();
+  }
+
   update(id: string, updateData: Partial<Article>) {
     return this.model.findByIdAndUpdate(id, updateData, {
       new: true,
@@ -32,11 +36,25 @@ export class ArticlesRepository {
     return this.model.findOne({ sourceUrl }).exec();
   }
 
-  findApproved(): Promise<Article[]> {
+  findApprovedPaginated(skip = 0, limit = 9, search = ''): Promise<Article[]> {
+    const query: Record<string, any> = { status: 'approved' };
+    if (search) {
+      query.$or = [{ title: { $regex: search, $options: 'i' } }];
+    }
     return this.model
-      .find({ status: 'approved' })
-      .sort({ createdAt: -1 })
+      .find(query)
+      .sort({ createdAt: 1 })
+      .skip(skip)
+      .limit(limit)
       .exec();
+  }
+
+  countApproved(search = ''): Promise<number> {
+    const query: Record<string, any> = { status: 'approved' };
+    if (search) {
+      query.$or = [{ title: { $regex: search, $options: 'i' } }];
+    }
+    return this.model.countDocuments(query).exec();
   }
 
   findPending(): Promise<Article[]> {

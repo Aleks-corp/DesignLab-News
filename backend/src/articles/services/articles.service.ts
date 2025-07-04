@@ -21,6 +21,21 @@ export class ArticlesService {
     return this.articleRepo.findAll();
   }
 
+  async findById(id: string) {
+    return this.articleRepo.findById(id);
+  }
+
+  async confirm(article: Partial<Article> & { _id: string }) {
+    const { _id, ...rest } = article;
+    const updated = await this.articleRepo.updateById(_id, {
+      ...rest,
+      status: 'approved',
+    });
+
+    if (!updated) throw new NotFoundException('Article not found');
+    return updated;
+  }
+
   async deleteAll() {
     return this.articleRepo.deleteAll();
   }
@@ -29,8 +44,17 @@ export class ArticlesService {
     return this.articleRepo.deleteById(id);
   }
 
-  async findPublished(): Promise<Article[]> {
-    return this.articleRepo.findApproved();
+  async findPublishedPaginated(
+    page = 1,
+    limit = 9,
+    search = '',
+  ): Promise<{ articles: Article[]; totalHits: number }> {
+    const skip = (page - 1) * limit;
+    const [articles, totalHits] = await Promise.all([
+      this.articleRepo.findApprovedPaginated(skip, limit, search),
+      this.articleRepo.countApproved(search),
+    ]);
+    return { articles, totalHits };
   }
 
   async findPending(): Promise<Article[]> {
