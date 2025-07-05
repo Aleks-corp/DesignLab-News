@@ -4,6 +4,7 @@ import { ArticlesModule } from './articles/articles.module.js';
 import 'dotenv/config';
 import { GptModule } from './gpt/gpt.module.js';
 import { AuthModule } from './auth/auth.module.js';
+import { SchedulerModule } from './sheduler/scheduler.module.js';
 import { LoggerMiddleware } from './common/middleware/logger.middleware.js';
 
 @Module({
@@ -12,6 +13,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware.js';
     ArticlesModule,
     GptModule,
     AuthModule,
+    SchedulerModule,
   ],
 })
 export class AppModule implements NestModule {

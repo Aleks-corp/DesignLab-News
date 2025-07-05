@@ -1,6 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import 'dotenv/config';
+import { AllExceptionsFilter } from './common/middleware/all-exceptions.filter.js';
+import startSelfPing from './common/middleware/self.ping.js';
 
 async function bootstrap() {
   const port = process.env.PORT ?? 3030;
@@ -9,6 +11,8 @@ async function bootstrap() {
     origin: ['http://localhost:3000', 'https://my-production-site.com'],
     credentials: true,
   });
+  app.useGlobalFilters(new AllExceptionsFilter());
+  startSelfPing();
   await app.listen(port, () => {
     console.log(`Database connection successful on port ${port}`);
   });
