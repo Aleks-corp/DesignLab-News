@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://uxnews.dsgn-academy.club"),
+  metadataBase: new URL("https://news-dsgn-academy.onrender.com"),
   title: "UX.News — Український портал новин для дизайнерів",
   description:
     "UX.News — новини, аналітика, статті та тренди для дизайнерів, UX-фахівців і фронтендерів. Читай актуальне, знаходь ідеї для своїх проектів.",
@@ -35,11 +35,11 @@ export const metadata: Metadata = {
     title: "UX.News — Український портал новин для дизайнерів",
     description:
       "Читай найсвіжіші новини зі світу UX, UI, технологій та дизайну. Огляди інструментів, експертні думки, корисні статті.",
-    url: "https://uxnews.site",
+    url: "hhttps://news-dsgn-academy.onrender.com",
     type: "website",
     images: [
       {
-        url: "https://uxnews.dsgn-academy.club/og-preview.png",
+        url: "https://news-dsgn-academy.onrender.com/og-preview.png",
         width: 1200,
         height: 630,
         alt: "UX.News – Український портал новин для дизайнерів",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     title: "UX.News — Український портал новин для дизайнерів",
     description:
       "Останні новини для дизайнерів та фронтендерів. Читай, навчайся, знаходь натхнення на UX.News.",
-    images: ["https://uxnews.site/og-preview.png"],
+    images: ["https://news-dsgn-academy.onrender.com/og-preview.png"],
   },
   robots: {
     index: true,
