@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
-import { IActicles } from "@/types/article.type";
+import { IArticles } from "@/types/article.type";
 
-export default function ArticleCard({ article }: { article: IActicles }) {
+export default function ArticleCard({ article }: { article: IArticles }) {
   return (
     <div className="flex flex-col gap-5">
       <div className="w-full aspect-[3/2] overflow-hidden rounded-xl">

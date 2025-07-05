@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Roboto, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 // import Footer from "@/components/Footer";
@@ -6,6 +5,7 @@ import Header from "@/components/Header";
 import QueryProvider from "@/components/providers/QueryProvider";
 import AdminNavbar from "@/components/AdminNavBar";
 import { AdminProvider } from "../context/AdminContext";
+import { metadata } from "@/lib/metadata";
 
 const roboto = Roboto({
   weight: ["400", "500", "600", "700"],
@@ -21,11 +21,7 @@ const dmSerif = DM_Serif_Display({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "UX.News – Новини дизайну та інтерфейсів",
-  description:
-    "Свіжі матеріали про UX, UI, досвід користувача та сучасний веб-дизайн українською мовою.",
-};
+export { metadata };
 
 export default function RootLayout({
   children,
@@ -33,7 +29,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ua">
+    <html lang="uk">
+      <head>
+        <meta name="theme-color" content="#ffffff" />
+      </head>
       <body className={`${roboto.variable} ${dmSerif.variable} antialiased`}>
         <div className="flex flex-col gap-[32px] min-h-screen p-8 pb-12 sm:p-20 ">
           <AdminProvider>

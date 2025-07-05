@@ -1,4 +1,4 @@
-export interface IActicles {
+export interface IArticles {
   _id: string;
   title: string;
   content: string;

@@ -1,14 +1,14 @@
 "use client";
 
 import { fetchArticlesToReview } from "@/lib/api";
-import { IActicles } from "@/types/article.type";
+import { IArticles } from "@/types/article.type";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { confirmArticle, deleteArticle } from "@/lib/api";
 
 interface QueryType {
-  data: { articles: IActicles[] } | undefined;
+  data: { articles: IArticles[] } | undefined;
   isLoading: boolean;
   error: Error | null;
 }
@@ -34,7 +34,7 @@ export default function ReviewArticles() {
     },
   });
 
-  const [selected, setSelected] = useState<IActicles | null>(
+  const [selected, setSelected] = useState<IArticles | null>(
     data?.articles[0] || null
   );
 
@@ -46,7 +46,7 @@ export default function ReviewArticles() {
   const editContentHandler = () => {
     if (data && editContent && selected && editedContent) {
       const index = data.articles.findIndex(
-        (a: IActicles) => a._id === selected._id
+        (a: IArticles) => a._id === selected._id
       );
       data.articles[index].content = editedContent;
       selected.content = editedContent;
@@ -59,7 +59,7 @@ export default function ReviewArticles() {
   const editTitleHandler = () => {
     if (data && editTitle && selected && editedTitle) {
       const index = data.articles.findIndex(
-        (a: IActicles) => a._id === selected._id
+        (a: IArticles) => a._id === selected._id
       );
       data.articles[index].title = editedTitle;
       selected.title = editedTitle;
@@ -74,7 +74,7 @@ export default function ReviewArticles() {
     if (data && selected) {
       confirmMutation.mutate(selected);
       const index = data.articles.findIndex(
-        (a: IActicles) => a._id === selected._id
+        (a: IArticles) => a._id === selected._id
       );
       setSelected(data.articles[index + 1]);
       data.articles.splice(index, 1);
@@ -85,7 +85,7 @@ export default function ReviewArticles() {
     if (data && selected) {
       deleteMutation.mutate(selected._id);
       const index = data.articles.findIndex(
-        (a: IActicles) => a._id === selected._id
+        (a: IArticles) => a._id === selected._id
       );
       setSelected(data.articles[index + 1]);
       data.articles.splice(index, 1);
@@ -98,7 +98,7 @@ export default function ReviewArticles() {
     <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] w-full h-screen">
       <aside className="border-r border-gray-200 overflow-y-auto">
         {data &&
-          data.articles.map((article: IActicles) => (
+          data.articles.map((article: IArticles) => (
             <button
               key={article._id}
               onClick={() => {

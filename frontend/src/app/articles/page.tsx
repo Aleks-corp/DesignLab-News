@@ -2,7 +2,7 @@
 
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchArticles } from "@/lib/api";
-import { IActicles } from "@/types/article.type";
+import { IArticles } from "@/types/article.type";
 import ArticleCard from "@/components/ArticleCard";
 import Link from "next/link";
 import { useInView } from "react-intersection-observer";
@@ -12,7 +12,7 @@ import { useDebouncedValue } from "@/hooks/useDebounce";
 import { useAdmin } from "context/AdminContext";
 
 type FetchArticlesResponse = {
-  articles: IActicles[];
+  articles: IArticles[];
   totalHits: number;
 };
 
@@ -29,6 +29,7 @@ export default function ArticlesList() {
     hasNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery<FetchArticlesResponse, Error>({
+    retry: false,
     queryKey: ["articles", limit, debouncedSearch],
     queryFn: ({ pageParam = 1 }) =>
       fetchArticles(pageParam as number, limit, debouncedSearch),
@@ -51,7 +52,21 @@ export default function ArticlesList() {
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (isLoading) return <p>Завантаження...</p>;
-  if (error) return <p>Помилка завантаження</p>;
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <p className="text-lg text-red-500 mb-4">
+          Сервер недоступний або сталася помилка з&apos;єднання.
+        </p>
+        <button
+          className="px-4 py-2 bg-black text-white rounded-xl hover:bg-muted transition"
+          onClick={() => window.location.reload()}
+        >
+          Оновити сторінку
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen">
@@ -62,7 +77,7 @@ export default function ArticlesList() {
               Нічого не знайдено 😕
             </p>
           )}
-          {articles.map((article: IActicles) => (
+          {articles.map((article: IArticles) => (
             <Link
               key={article._id}
               href={`/articles/${article._id}`}

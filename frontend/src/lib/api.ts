@@ -1,4 +1,4 @@
-import { IActicles } from "@/types/article.type";
+import { IArticles } from "@/types/article.type";
 import axios from "axios";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
@@ -53,7 +53,7 @@ export const fetchArticlesToReview = async () => {
   return response.data;
 };
 
-export const confirmArticle = async (article: IActicles) => {
+export const confirmArticle = async (article: IArticles) => {
   const response = await api.patch(`/articles/confirm`, article);
   return response.data;
 };
