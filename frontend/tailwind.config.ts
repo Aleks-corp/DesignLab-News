@@ -13,7 +13,6 @@ const config: Config = {
             p: {
               fontFamily: "var(--font-roboto)",
               fontSize: "16px",
-              textIndent: "2em",
               marginBottom: "0",
               maxWidth: "100%",
             },
@@ -23,6 +22,15 @@ const config: Config = {
               marginRight: "auto",
               borderRadius: "12px",
               maxWidth: "100%",
+            },
+            h2: {
+              fontWight: "600",
+            },
+            h3: {
+              fontWight: "600",
+            },
+            h4: {
+              fontWight: "600",
             },
           },
         },
@@ -32,11 +40,7 @@ const config: Config = {
             p: {
               fontFamily: "var(--font-roboto)",
               fontSize: "18px",
-              textIndent: "3rem",
-              marginTop: "0.5rem",
-              marginBottom: "0",
-              width: "100%",
-              textAlign: "justify",
+              maxWidth: "100%",
             },
             a: { color: "var(--foreground)" },
             img: {
@@ -45,6 +49,15 @@ const config: Config = {
               marginRight: "auto",
               borderRadius: "12px",
               width: "100%",
+            },
+            h2: {
+              fontWeight: "600",
+            },
+            h3: {
+              fontWeight: "600",
+            },
+            h4: {
+              fontWeight: "600",
             },
           },
         },

@@ -71,7 +71,7 @@ export default function ArticleFullPost({ id }: { id: string | string[] }) {
       <div className="w-full">
         <h1 className="text-2xl font-bold mb-4">{article.title}</h1>
         <article
-          className=" prose-lg max-w-5xl mx-auto"
+          className="prose-lg max-w-3xl mx-auto no-links"
           dangerouslySetInnerHTML={{
             __html: article.content || "No original content",
           }}

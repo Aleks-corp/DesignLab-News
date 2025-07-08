@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://news-dsgn-academy.onrender.com"),
   title: "UX.News — Український портал новин для дизайнерів",
   description:
-    "UX.News — новини, аналітика, статті та тренди для дизайнерів, UX-фахівців і фронтендерів. Читай актуальне, знаходь ідеї для своїх проектів.",
+    "UX.News — новини, аналітика, статті та тренди для дизайнерів і UX-фахівців. Читай актуальне, знаходь ідеї для своїх проектів.",
   authors: [{ name: "Design Academy" }],
   keywords: [
     "дизайн",
@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "UX.News — Український портал новин для дизайнерів",
     description:
-      "Останні новини для дизайнерів та фронтендерів. Читай, навчайся, знаходь натхнення на UX.News.",
+      "Останні новини для для дизайнерів і UX-фахівців. Читай, навчайся, знаходь натхнення на UX.News.",
     images: ["https://news-dsgn-academy.onrender.com/og-preview.png"],
   },
   robots: {

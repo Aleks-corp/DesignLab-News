@@ -43,7 +43,7 @@ export class ArticlesRepository {
     }
     return this.model
       .find(query)
-      .sort({ createdAt: 1 })
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .exec();
