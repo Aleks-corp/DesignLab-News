@@ -61,7 +61,7 @@ export class ArticlesController {
   @Patch('confirm')
   @UseGuards(SimpleAuthGuard)
   async confirm(@Body() article: Partial<Article> & { _id: string }) {
-    return this.articlesService.confirm(article);
+    return this.articlesService.approveArticle(article);
   }
 
   @Get(':id')

@@ -1,4 +1,4 @@
-const SELF_URL = process.env.SELF_URL || '';
+const SELF_URL = `${process.env.SELF_URL}/sheduler/ping`;
 
 const NEXT_URL = `${process.env.NEXT_URL}/dl-admin`;
 

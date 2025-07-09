@@ -2,6 +2,7 @@ import OpenAI from 'openai';
 import { Injectable } from '@nestjs/common';
 import 'dotenv/config';
 import { TranslateArticlesRepository } from '../repositories/tranclate.articles.repo.js';
+import { initPrompt } from '../utils/prompt.constant.js';
 
 @Injectable()
 export class GptService {
@@ -26,19 +27,7 @@ export class GptService {
     title: string,
     content: string,
   ): Promise<{ title: string; content: string }> {
-    const prompt = `Translate the following UX/UI design article to Ukrainian.
-
-⚠️ VERY IMPORTANT INSTRUCTIONS:
-- Keep all HTML tags (<p>, <a>, <img>, etc.) unchanged.
-- Only translate human-readable text **inside** the tags.
-- DO NOT translate attributes like href, src, alt, class, etc.
-- DO NOT change HTML structure.
-- DO NOT wrap with additional tags.
-- Preserve original paragraph and element structure.
-- Keep line breaks and indentation as in original.
-
----
-
+    const prompt = `${initPrompt}
 Title: ${title}
 
 Content:

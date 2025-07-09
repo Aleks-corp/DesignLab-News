@@ -25,10 +25,19 @@ export class ArticlesService {
     return this.articleRepo.findById(id);
   }
 
-  async confirm(article: Partial<Article> & { _id: string }) {
-    const { _id, ...rest } = article;
+  async approveArticle(article: Partial<Article> & { _id: string }) {
+    const { _id, content, ...rest } = article;
+    const OldArticle = await this.articleRepo.findById(_id);
+    if (!OldArticle) {
+      throw new NotFoundException(`Статтю з ID ${_id} не знайдено`);
+    }
+    const newExcerpt = extractExcerptFromContent(content || '');
+    const excerptToSave =
+      newExcerpt.trim() !== '' ? newExcerpt : article.excerpt || '';
     const updated = await this.articleRepo.updateById(_id, {
       ...rest,
+      content,
+      excerpt: excerptToSave,
       status: 'approved',
     });
 
@@ -153,24 +162,6 @@ export class ArticlesService {
     for (const dto of articles) {
       await this.create(dto);
     }
-  }
-
-  async approveArticle(id: string, title: string, content: string) {
-    const article = await this.articleRepo.findById(id);
-    if (!article) {
-      throw new NotFoundException(`Статтю з ID ${id} не знайдено`);
-    }
-
-    const newExcerpt = extractExcerptFromContent(content);
-    const excerptToSave =
-      newExcerpt.trim() !== '' ? newExcerpt : article.excerpt || '';
-
-    return this.articleRepo.update(id, {
-      title,
-      content,
-      excerpt: excerptToSave,
-      status: 'approved',
-    });
   }
 
   // async insertMany(articles: Article[]) {
