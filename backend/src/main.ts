@@ -8,7 +8,7 @@ async function bootstrap() {
   const port = process.env.PORT ?? 3030;
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: process.env.NEXT_URL ? [process.env.NEXT_URL] : true,
+    origin: process.env.TEST ? true : [process.env.NEXT_URL],
     credentials: true,
   });
   app.useGlobalFilters(new AllExceptionsFilter());
