@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import AdminList from "@/components/AdminList";
 import { IArticles } from "@/types/article.type";
 import { UseMutationResult } from "@tanstack/react-query";
 import AdminEditOriginContent from "./AdminEditOrigin";
 import AdminEditTranslateContent from "./AdminEditTranslate";
 import AdminEditImagePreview from "./AdminEditImgPrev";
+import ScrollToTopBtn from "./ScrollToTop";
 
 type EditArticleProp = {
   data: { articles: IArticles[] };
@@ -30,6 +31,8 @@ export default function AdminEditArticle({
   const [editedTitle, setEditedTitle] = useState(selected?.title);
   const [editedImg, setEditedImg] = useState(selected?.imageUrl);
   const [editedContent, setEditedContent] = useState(selected?.content);
+
+  const mainRef = useRef<HTMLElement>(null);
 
   const editContentHandler = () => {
     if (editContent && selected && editedContent) {
@@ -91,15 +94,12 @@ export default function AdminEditArticle({
 
   const handleApprove = () => {
     if (selected) {
-      console.log(" selected:", selected.title);
       confirmMutation.mutate(selected);
       const index = data.articles.findIndex(
         (a: IArticles) => a._id === selected._id
       );
-      console.log(" index:", index);
       setSelected(data.articles[index + 1]);
       selectArticle(data.articles[index + 1]);
-      console.log(" selected:", selected.title);
       data.articles.splice(index, 1);
     }
   };
@@ -116,14 +116,16 @@ export default function AdminEditArticle({
     }
   };
   return (
-    <>
+    <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] w-full h-full">
       <AdminList
         articles={data.articles}
         selected={selected}
         selectArticle={selectArticle}
       />
-
-      <main className="p-6 overflow-y-auto flex flex-col gap-4">
+      <main
+        className="relative flex flex-col gap-4 p-6 overflow-x-hidden overflow-y-auto"
+        ref={mainRef}
+      >
         {selected && (
           <>
             <div className="flex gap-2">
@@ -187,6 +189,7 @@ export default function AdminEditArticle({
           </>
         )}
       </main>
-    </>
+      <ScrollToTopBtn scrollContainerRef={mainRef} />
+    </div>
   );
 }

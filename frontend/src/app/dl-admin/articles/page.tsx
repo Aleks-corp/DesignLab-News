@@ -39,7 +39,7 @@ export default function ReviewArticles() {
   if (isLoading) return <p>Завантаження...</p>;
   if (error) return <p>Помилка завантаження</p>;
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] w-full h-screen">
+    <div className="w-full h-screen">
       {data && (
         <AdminEditArticle
           data={data}
