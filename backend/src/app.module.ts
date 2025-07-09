@@ -6,6 +6,7 @@ import { GptModule } from './gpt/gpt.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { SchedulerModule } from './sheduler/scheduler.module.js';
 import { LoggerMiddleware } from './common/middleware/logger.middleware.js';
+import { AppController } from './app.controller.js';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware.js';
     AuthModule,
     SchedulerModule,
   ],
+  controllers: [AppController],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
