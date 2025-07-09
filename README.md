@@ -1,13 +1,30 @@
-# UX.News — Український портал новин для дизайнерів
-
 **Read in other languages:** [Українська](README.md) | [English](README.en.md)
+
+---
+
+<div align="center" class="text-center"><h1>UX.News — Український портал новин для дизайнерів</h1><img alt="last-commit" src="https://img.shields.io/github/last-commit/Aleks-corp/DesignLab-News?style=flat&amp;logo=git&amp;logoColor=white&amp;color=0080ff" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="repo-top-language" src="https://img.shields.io/github/languages/top/Aleks-corp/DesignLab-News?style=flat&amp;color=0080ff" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="repo-language-count" src="https://img.shields.io/github/languages/count/Aleks-corp/DesignLab-News?style=flat&amp;color=0080ff" class="inline-block mx-1" style="margin: 0px 2px;">
+
+<p><em>Розроблено за допомогою:</em></p>
+<img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-3178C6.svg?style=flat&amp;logo=TypeScript&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="React" src="https://img.shields.io/badge/React-61DAFB.svg?style=flat&amp;logo=React&amp;logoColor=black" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="NextJS" src="https://img.shields.io/badge/next.js-000000?style=flat&amp;logo=nextdotjs&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="Axios" src="https://img.shields.io/badge/Axios-5A29E4.svg?style=flat&amp;logo=Axios&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+<br>
+<img alt="Node" src="https://img.shields.io/badge/node.js-339933?style=flat&amp;logo=Node.js&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="nestjs" src="https://img.shields.io/badge/-NestJs-ea2845?style=flat&amp;logo=nestjs&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="Yarn" src="https://img.shields.io/badge/Yarn-2C8EBB.svg?style=flat&amp;logo=Yarn&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="Mongoose" src="https://img.shields.io/badge/Mongoose-F04D35.svg?style=flat&amp;logo=Mongoose&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="OpenAI" src="https://img.shields.io/badge/OpenAI-412991.svg?style=flat&amp;logo=OpenAI&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="Cheerio" src="https://img.shields.io/badge/Cheerio-E88C1F.svg?style=flat&amp;logo=Cheerio&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+<img alt="ESLint" src="https://img.shields.io/badge/ESLint-4B32C3.svg?style=flat&amp;logo=ESLint&amp;logoColor=white" class="inline-block mx-1" style="margin: 0px 2px;">
+</div>
 
 ---
 
 **UX.News** — це україномовний портал новин для дизайнерів і фронтендерів.  
 Проєкт автоматично парсить, перекладає та публікує найновіші статті зі світових ресурсів про UX/UI.
-
----
 
 ## 📦 Cтруктура репозиторію
 
