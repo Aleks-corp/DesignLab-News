@@ -31,11 +31,13 @@ export class SchedulerService implements OnModuleInit {
     this.logger.log('Стартую щоденний парсинг статей...');
     const prototyprFeedUrl = 'https://blog.prototypr.io/feed/';
     const smashingFeedUrl = 'https://www.smashingmagazine.com/feed/';
-    await this.articlesService.parseAndStoreArticles(
+    const articleLength = await this.articlesService.parseAndStoreArticles(
       prototyprFeedUrl,
       smashingFeedUrl,
     );
-    this.logger.log('Парсинг завершено, стартую переклад...');
+    this.logger.log(
+      `Парсинг завершено, додано ${articleLength} статей, стартую переклад...`,
+    );
     const count = await this.gptService.translateRawArticles();
     this.logger.log(`Переклад завершено. Перекладено ${count} статей.`);
   }

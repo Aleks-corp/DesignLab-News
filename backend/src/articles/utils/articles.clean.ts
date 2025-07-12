@@ -21,15 +21,13 @@ export const articlesAddFilter = async (
     }
     const combinedText = `${dto.title} ${dto.content}`;
     if (!isLikelyReadableLanguage(combinedText)) {
-      console.warn(
-        `🚫 Стаття не українською/англійською: "${dto.title}","${dto.content}"`,
-      );
+      console.warn(`🚫 Стаття не українською/англійською: "${dto.sourceUrl}"`);
       continue;
     }
 
     const regex1 = /#\w*lawyer\b/i;
     if (regex1.test(dto.title) || regex1.test(dto.content)) {
-      console.warn(`🚫 Стаття містить spam hashtag: "${dto.title}"`);
+      console.warn(`🚫 Стаття містить spam hashtag: "${dto.sourceUrl}"`);
       continue;
     }
 
@@ -40,12 +38,12 @@ export const articlesAddFilter = async (
       /(member-only story|whatsapp|@gmail\.com|travitudesafaritours|safari|vacations to africa)/;
 
     if (regex.test(normalizedTitle) || regex.test(normalizedContent)) {
-      console.warn(`🚫 Спам/платна стаття відкинута: "${dto.title}"`);
+      console.warn(`🚫 Спам/платна стаття відкинута: "${dto.sourceUrl}"`);
       continue;
     }
 
     if (!isRelevantForDesigners(dto)) {
-      console.warn(`🚫 Не релевантна для дизайнерів: "${dto.title}"`);
+      console.warn(`🚫 Не релевантна для дизайнерів: "${dto.sourceUrl}"`);
       continue;
     }
 
@@ -56,9 +54,9 @@ export const articlesAddFilter = async (
     cleanedContent = parts.length > 1 ? parts[1].trim() : cleanedContent.trim();
 
     dto.content = cleanedContent;
-    console.log(` Знайдена нова стаття: "${dto.title}"`);
+    console.log(` Знайдена нова стаття: "${dto.sourceUrl}"`);
     articles.push(dto);
   }
-  articles.splice(0, articlesDayCount);
-  return articles;
+  console.log('art after filter in:', articles.length);
+  return articles.splice(0, articlesDayCount);
 };

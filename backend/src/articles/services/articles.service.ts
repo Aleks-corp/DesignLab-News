@@ -143,11 +143,13 @@ export class ArticlesService {
   async parseAndStoreArticles(
     prototyprFeedUrl: string,
     smashingFeedUrl: string,
-  ): Promise<void> {
+  ): Promise<number> {
     let articles: CreateArticleDto[] = [];
     const prototyprDtos = await rssParsers.prototyprFeed(prototyprFeedUrl);
+    console.log('All prototypr art:', prototyprDtos.length);
 
     articles = await articlesAddFilter(prototyprDtos, this.articleRepo);
+    console.log('prototypr after filter out:', articles.length);
 
     if (articles.length < articlesDayCount) {
       const smashingDtos = await rssParsers.smashingFeed(smashingFeedUrl);
@@ -155,6 +157,7 @@ export class ArticlesService {
         smashingDtos,
         this.articleRepo,
       );
+      console.log('smashing after filter out:', smashingArticles.length);
       articles = articles.concat(
         smashingArticles.slice(0, articlesDayCount - articles.length),
       );
@@ -162,6 +165,7 @@ export class ArticlesService {
     for (const dto of articles) {
       await this.create(dto);
     }
+    return articles.length;
   }
 
   // async insertMany(articles: Article[]) {
