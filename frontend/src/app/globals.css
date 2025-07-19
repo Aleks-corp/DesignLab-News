@@ -9,9 +9,15 @@
   --muted-foreground: #5e6278;
   --hover: #086de3;
   --hover-foreground: #f8f8f8;
-  --radius: 8px;
   --font-roboto: "Roboto", sans-serif;
   --font-dm-serif: "DM Serif Display", serif;
+  --font-robotoCondensed: "Roboto Condensed", sans-serif;
+  --boxShadowBtn: 0px 0px 0px 1px #121212;
+  --boxShadowInput: 0px 1px 1px 0px rgba(18, 18, 18, 0.1),
+    0px 0px 0px 1px rgba(18, 18, 18, 0.1);
+  --boxShadowInputHover: 0px 0px 0px 4px rgba(18, 18, 18, 0.1),
+    0px 1px 1px 0px rgba(18, 18, 18, 0.1), 0px 0px 0px 1px rgba(18, 18, 18, 0.2),
+    0px 1px 3px 0px rgba(18, 18, 18, 0.1);
 }
 
 body {
@@ -25,4 +31,25 @@ body {
   color: inherit;
   text-decoration: none;
   cursor: default;
+}
+
+.btn-gradient {
+  background: radial-gradient(
+      100% 100% at 50% 0%,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    #09090b;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  box-shadow: 0px 0px 0px 1px #121212;
+}
+
+.btn-gradient:hover {
+  background: radial-gradient(
+      100% 100% at 50% 0%,
+      rgba(255, 255, 255, 0.36) 0%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    #18181b;
 }

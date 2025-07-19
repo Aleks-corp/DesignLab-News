@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/lib/api";
 import { useAdmin } from "../../context/AdminContext";
+import InputWithIcon from "@/components/InputWithIcon";
 
 export default function AdminLogin() {
   const [password, setPassword] = useState("");
@@ -28,16 +29,16 @@ export default function AdminLogin() {
     <div className="p-4 max-w-sm mx-auto">
       <h1 className="text-xl font-bold mb-4">Вхід адміністратора</h1>
       <form onSubmit={handleLogin}>
-        <input
+        <InputWithIcon
+          inputClassName="mb-2"
           type="password"
           placeholder="Пароль"
-          className="border p-2 w-full mb-2 rounded-lg"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={setPassword}
         />
         <button
           type="submit"
-          className="bg-black text-white px-4 py-2 w-full rounded-lg"
+          className="btn-gradient text-white px-4 py-2.5 w-full transition cursor-pointer"
         >
           Увійти
         </button>

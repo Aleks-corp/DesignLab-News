@@ -71,7 +71,7 @@ export default function ArticlesList() {
   return (
     <div className="min-h-screen">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start w-full">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-2xl sm:max-w-3xl md:max-w-7xl">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 w-full max-w-2xl sm:max-w-3xl md:max-w-6xl">
           {articles.length === 0 && (
             <p className="col-span-full text-center text-muted-foreground py-12">
               Нічого не знайдено 😕

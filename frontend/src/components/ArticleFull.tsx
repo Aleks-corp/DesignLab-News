@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import BtnBack from "./btnBack";
 import { fetchArticleById } from "@/lib/api";
 import { useEffect, useState } from "react";
+import NotFoundWrap from "./NotFound";
 
 export default function ArticleFullPost({ id }: { id: string | string[] }) {
   const [article, setArticle] = useState<IArticles | null>(null);
@@ -50,13 +51,7 @@ export default function ArticleFullPost({ id }: { id: string | string[] }) {
   };
 
   if (loading) return <p>Завантаження...</p>;
-  if (!article)
-    return (
-      <>
-        <BtnBack handleBack={handleBack} />
-        <p>Статтю не знайдено</p>
-      </>
-    );
+  if (!article) return <NotFoundWrap />;
   if (error)
     return (
       <>
